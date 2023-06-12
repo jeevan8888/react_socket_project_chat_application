@@ -11,7 +11,17 @@ const app = express();
 const server = http.createServer(app);
 const io = socketio(server);
 
-app.use(cors());
+// app.use(cors({
+//   origin: '*',
+// }));
+
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*, CORS');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-with, Content-Type,Accept');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
+  next();
+});
+
 app.use(router);
 
 io.on('connect', (socket) => {
